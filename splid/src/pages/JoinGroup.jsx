@@ -19,7 +19,7 @@ const JoinGroup = () => {
 
     try {
       const res = await fetch(
-        "http://localhost:3000/api/auth/join-group",
+        "https://split-g38i.onrender.com/api/auth/join-group",
         {
           method: "POST",
           headers: {

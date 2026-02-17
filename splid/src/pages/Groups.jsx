@@ -25,7 +25,7 @@ const Groups = () => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/auth/groups", {
+        const res = await fetch("https://split-g38i.onrender.com/api/auth/groups", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -50,7 +50,7 @@ const Groups = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/api/auth/addmember/${activeGroup._id}`,
+        `https://split-g38i.onrender.com/api/auth/addmember/${activeGroup._id}`,
         {
           method: "PUT",
           headers: {
@@ -122,7 +122,7 @@ const Groups = () => {
   const handleRemoveMember = async (groupId, memberName) => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/auth/remove-member/${groupId}`,
+        `https://split-g38i.onrender.com/api/auth/remove-member/${groupId}`,
         {
           method: "DELETE",
           headers: {

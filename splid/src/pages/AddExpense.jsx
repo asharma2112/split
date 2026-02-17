@@ -20,7 +20,7 @@ const AddExpense = () => {
         }
 
         const res = await fetch(
-            "http://localhost:3000/api/auth/addexpense",
+            "https://split-g38i.onrender.com/api/auth/addexpense",
             {
                 method: "POST",
                 headers: {

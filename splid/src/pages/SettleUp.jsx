@@ -11,7 +11,7 @@ const SettleUp = () => {
   useEffect(() => {
     if (!activeGroup) return;
 
-    fetch(`http://localhost:3000/api/auth/settle-up/${activeGroup._id}`, {
+    fetch(`https://split-g38i.onrender.com/api/auth/settle-up/${activeGroup._id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -29,7 +29,7 @@ const handleSettle = async () => {
 
     await Promise.all(
       selected.map(tx =>
-        fetch("http://localhost:3000/api/auth/make-payment", {
+        fetch("https://split-g38i.onrender.com/api/auth/make-payment", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

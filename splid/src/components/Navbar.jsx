@@ -17,7 +17,7 @@ const Navbar = () => {
  useEffect(() => {
   const token = localStorage.getItem("token");
 
-  fetch("http://localhost:3000/api/auth/groups", {
+  fetch("https://split-g38i.onrender.com/api/auth/groups", {
     headers: {
       Authorization: `Bearer ${token}`
     }

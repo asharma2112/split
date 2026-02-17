@@ -22,7 +22,7 @@ useEffect(() => {
 
   const fetchBalance = async () => {
     const res = await fetch(
-      `http://localhost:3000/api/auth/groupbalance/${activeGroup._id}`,
+      `https://split-g38i.onrender.com/api/auth/groupbalance/${activeGroup._id}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -42,7 +42,7 @@ useEffect(() => {
  useEffect(() => {
   if (!activeGroup) return;
 
-  fetch(`http://localhost:3000/api/auth/expenses/${activeGroup._id}`, {
+  fetch(`https://split-g38i.onrender.com/api/auth/expenses/${activeGroup._id}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     }

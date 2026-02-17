@@ -34,7 +34,7 @@ const MakePayment = () => {
 
     try {
       const res = await fetch(
-        "http://localhost:3000/api/auth/make-payment",
+        "https://split-g38i.onrender.com/api/auth/make-payment",
         {
           method: "POST",
           headers: {

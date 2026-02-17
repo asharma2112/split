@@ -11,7 +11,7 @@ const ExpenseHistory = () => {
   useEffect(() => {
     if (!activeGroup || !token) return;
 
-    fetch(`http://localhost:3000/api/auth/expenses/${activeGroup._id}`, {
+    fetch(`https://split-g38i.onrender.com/api/auth/expenses/${activeGroup._id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

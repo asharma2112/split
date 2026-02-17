@@ -46,7 +46,7 @@ const CreateNewGroup = () => {
         try {
             const token = localStorage.getItem("token");
 
-            const res = await fetch("http://localhost:3000/api/auth/creategroup", {
+            const res = await fetch("https://split-g38i.onrender.com/api/auth/creategroup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
