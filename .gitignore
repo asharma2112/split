@@ -1,5 +1,11 @@
-node_modules
+# Backend
 Backend/node_modules
+Backend/.env
+
+# Frontend
 splid/node_modules
-.env
 splid/dist
+
+# General
+node_modules
+.env
