@@ -1,0 +1,50 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.container {
+    height: 90vh;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.logo {
+    height: auto;
+    width: 750px;
+}
+
+.card-container {
+    background-color: whitesmoke;
+
+    border-radius: 10px;
+}
+form{
+    display: flex;
+    gap: 5px;
+}
+
+form input {
+    text-align: left;
+    padding: 5PX;
+    border-radius: 5px;
+    border: 1px solid white;
+
+}
+
+form button {
+    margin-top: 10px;
+}
+
+.form-container {
+    margin-top: 10px;
+
+    display: flex;
+   
+    text-align: left;
+
+}
