@@ -1,7 +1,9 @@
 const crypto = require("crypto")
-const nodemailer = require("nodemailer")
 const bcrypt = require("bcrypt")
+const { Resend } = require("resend")
 const User = require("../model/UserScheme")
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 /*
 ========================================
@@ -23,23 +25,30 @@ const forgotPassword = async (req, res) => {
       return res.status(404).json({ message: "User not found" })
     }
 
-    // Generate raw token
     const rawToken = crypto.randomBytes(32).toString("hex")
 
-    // Hash token before saving (security best practice)
     const hashedToken = crypto
       .createHash("sha256")
       .update(rawToken)
       .digest("hex")
 
     user.resetToken = hashedToken
-    user.resetTokenExpiry = Date.now() + 60 * 60 * 1000 // 1 hour
+    user.resetTokenExpiry = Date.now() + 60 * 60 * 1000
 
     await user.save()
 
-    const resetLink = `https://split-g38i.onrender.com/reset-password/${rawToken}`
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${rawToken}`
 
-    await sendEmail(user.email, resetLink)
+    await resend.emails.send({
+      from: "SplitMate <onboarding@resend.dev>",
+      to: user.email,
+      subject: "Reset Your Password",
+      html: `
+        <h2>Password Reset</h2>
+        <p>Click below to reset your password:</p>
+        <a href="${resetLink}">${resetLink}</a>
+      `,
+    })
 
     res.json({ message: "Reset link sent to your email" })
 
@@ -48,7 +57,6 @@ const forgotPassword = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" })
   }
 }
-
 
 /*
 ========================================
@@ -64,7 +72,6 @@ const resetPassword = async (req, res) => {
       return res.status(400).json({ message: "Invalid request" })
     }
 
-    // Hash incoming token to compare with DB
     const hashedToken = crypto
       .createHash("sha256")
       .update(token)
@@ -79,7 +86,6 @@ const resetPassword = async (req, res) => {
       return res.status(400).json({ message: "Invalid or expired token" })
     }
 
-    // Hash new password
     const hashedPassword = await bcrypt.hash(password, 10)
 
     user.password = hashedPassword
@@ -95,38 +101,6 @@ const resetPassword = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" })
   }
 }
-
-
-/*
-========================================
-EMAIL SENDER FUNCTION
-========================================
-*/
-
-const sendEmail = async (to, link) => {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  const info = await transporter.sendMail({
-    from: `"SplitMate Support" <${process.env.EMAIL}>`,
-    to,
-    subject: "Password Reset - SplitMate",
-    html: `
-      <h2>Password Reset</h2>
-      <p>Click below to reset your password:</p>
-      <a href="${link}">${link}</a>
-    `,
-  });
-
-  console.log("Email sent:", info.response);
-};
-
-
 
 module.exports = {
   forgotPassword,
