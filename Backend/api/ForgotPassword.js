@@ -37,7 +37,7 @@ const forgotPassword = async (req, res) => {
 
     await user.save()
 
-    const resetLink = `http://localhost:5173/reset-password/${rawToken}`
+    const resetLink = `https://split-g38i.onrender.com/reset-password/${rawToken}`
 
     await sendEmail(user.email, resetLink)
 
