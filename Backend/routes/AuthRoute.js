@@ -14,6 +14,7 @@ const { GetGroupExpenses } = require('../api/ExpenseHistory');
 const { MakePayment } = require("../api/MakePayment");
 const {SettleUp} = require("../api/SettleUp")
 const { JoinGroup } = require("../api/GroupsAPI");
+const { forgotPassword,resetPassword } = require("../api/ForgotPassword");
 const router =express.Router();
 
 router.post("/register",register);
@@ -30,8 +31,8 @@ router.get("/groupbalance/:groupId", verifyToken, GetGroupBalance);
 router.post("/make-payment", verifyToken, MakePayment);
 router.get("/settle-up/:groupId", verifyToken, SettleUp);
 router.post("/join-group", verifyToken, JoinGroup);
-
-
+router.post("/forgot-password", forgotPassword)
+router.post("/reset-password", resetPassword)
 
 
 module.exports= router;

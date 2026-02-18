@@ -1,124 +1,148 @@
 import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../assets/download.svg";
+import Logo from "../assets/Logo.png";
 import { GroupContext } from "../context/GroupContext";
-
+import '../components/Navbar.css'
+import '../index.css'
 const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
 
   const { activeGroup, setActiveGroup } = useContext(GroupContext);
 
-  // 🔥 NEW: Groups state
   const [groups, setGroups] = useState([]);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // 🔥 Fetch groups when navbar loads
- useEffect(() => {
-  const token = localStorage.getItem("token");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-  fetch("https://split-g38i.onrender.com/api/auth/groups", {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (Array.isArray(data)) {
-        setGroups(data);
-      }
-    });
-
-}, []);
-
+    fetch("https://split-g38i.onrender.com/api/auth/groups", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setGroups(data);
+        }
+      });
+  }, []);
 
   const logout = () => {
-    const confirmLogout = window.confirm("Are you sure you want to logout?");
-    if (!confirmLogout) return;
-
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/login");
   };
-  const JoinGroup = () => {
-    
-  
-
-
-    navigate("/join-group");
-  };
 
   return (
-    <nav className="flex items-center justify-between py-3 ">
+    <>
+      <nav className="text-white px-6 py-4 sm:flex sm:gap-2  justify-between ">
 
-      <img className="w-[250px]" src={Logo} alt="logo" />
+        <div className="max-w-7xl  flex justify-center sm:justify-between items-center">
 
-      <div className="text-white flex gap-6">
-        <Link to="/" className="hover:text-green-600">Dashboard</Link>
-        <Link to="/groups" className="hover:text-green-600">Members List</Link>
-        <Link to="/createnewgroup" className="hover:text-green-600">Create Group</Link>
-        <Link to="/addexpense" className="hover:text-green-600">Add Expense</Link>
-        <Link to="/expensehistory" className="hover:text-green-600">Expense History</Link>
-        <Link to="/makepayment" className="hover:text-green-600">Make Payment</Link>
-        <Link to="/settleup" className="hover:text-green-600">Settle Up</Link>
-      </div>
-
-      {/* 🔥 Active Group Dropdown */}
-      <select
-        className="bg-green-600 font-bold ml-2  text-white cursor-pointer  rounded px-1  py-1"
-        value={activeGroup?._id || ""}
-        onChange={(e) => {
-          const selected = groups.find(g => g._id === e.target.value);
-          setActiveGroup(selected);
-        }}
-      >
-        <option className="cursor-pointer hover:bg-indigo-500 " value="">Select Group</option>
-        {groups.map((group) => (
-          <option className=" cursor-pointer" key={group._id} value={group._id}>
-            {group.name}
-          </option>
-        ))}
-      </select>
-
-      {/* Profile */}
-      <div className="relative ml-4">
-        <div
-          className="flex items-center gap-2 cursor-pointer"
-          onClick={() => setOpen(!open)}
-        >
-          <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
-            {user?.name?.charAt(0).toUpperCase()}
+          {/* Logo */}
+          <div className="flex justify-center md:justify-start items-center md:w-auto">
+            <img src={Logo} className="w-36 md:w-48" alt="logo" />
           </div>
-          <span className="text-sm font-medium text-white">{user?.name}</span>
+
         </div>
 
-        {open && (
-          <div className="absolute right-0 mt-2 w-20 bg-white shadow-lg rounded-md overflow-hidden">
-            <button
-              
-              className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+        <div className="hidden md:flex gap-8 font-medium items-center">
+          <Link to="/">Dashboard</Link>
+          <Link to="/createnewgroup">Create Group</Link>
+          <Link to="/expensehistory">Expense History</Link>
+          <Link to="/settleup">Settle Up</Link>
+        </div>
+        <div className="flex justify-center gap-5">
+
+
+          {/* Right Section */}
+          <div className="flex justify-center gap-5 md:justify-end items-center">
+
+            {/* Select Group */}
+            <select
+              className="bg-green-600 px-3 py-2 rounded-md text-white font-semibold focus:outline-none"
+              value={activeGroup?._id || ""}
+              onChange={(e) => {
+                const selected = groups.find(g => g._id === e.target.value);
+                setActiveGroup(selected);
+              }}
             >
-              Profile
+              <option value="">Select Group</option>
+              {groups.map((group) => (
+                <option key={group._id} value={group._id}>
+                  {group.name}
+                </option>
+              ))}
+            </select>
+
+            {/* Profile */}
+            <div className="relative">
+              <div
+                onClick={() => setProfileOpen(!profileOpen)}
+                className="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center font-bold cursor-pointer"
+              >
+                {user?.name?.charAt(0).toUpperCase()}
+              </div>
+
+              {profileOpen && (
+                <div className="absolute right-0 mt-2 bg-white text-black rounded shadow-md w-40 z-50">
+                 
+                  <button
+                    onClick={() => navigate("/join-group")}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                  >
+                    Join Group
+                  </button>
+                  <button
+                    onClick={logout}
+                    className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Hamburger */}
+            <button
+              className="text-2xl md:hidden"
+              onClick={() => setMenuOpen(true)}
+            >
+              ☰
             </button>
 
-            <button
-              onClick={JoinGroup}
-              className="block w-full text-left px-4 py-2  hover:bg-gray-100"
-            >
-              Join Group
-            </button>
-            <button
-              onClick={logout}
-              className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
-            >
-              Logout
-            </button>
+            {menuOpen && (
+              <div
+                className="fixed inset-0 bg-black/40 z-[9999]"
+                onClick={() => setMenuOpen(false)}
+              >
+
+                <div
+                  className="bg-white w-64 h-full p-6 shadow-lg"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="font-bold text-black text-lg">Menu</h2>
+                    <button onClick={() => setMenuOpen(false)} className="text-black">✕</button>
+                  </div>
+
+                  <div className="flex flex-col gap-4 text-gray-800 font-medium">
+                    <Link to="/" onClick={() => setMenuOpen(false)}>Dashboard</Link>
+                    <Link to="/createnewgroup" onClick={() => setMenuOpen(false)}>Create Group</Link>
+                    <Link to="/expensehistory" onClick={() => setMenuOpen(false)}>Expense History</Link>
+                    <Link to="/settleup" onClick={() => setMenuOpen(false)}>Settle Up</Link>
+                  </div>
+                </div>
+              </div>
+            )}
 
           </div>
-        )}
-      </div>
-
-    </nav>
+        </div>
+      </nav>
+    </>
   );
 };
 

@@ -2,7 +2,8 @@ import React, { useState, useContext } from "react";
 import Navbar from "../components/Navbar";
 import { GroupContext } from "../context/GroupContext";
 import { useNavigate } from "react-router-dom";
-
+import FloatingMenu from "../components/FloatingMenu";
+import Footer from "../components/Footer";
 const MakePayment = () => {
   const { activeGroup } = useContext(GroupContext);
   const navigate = useNavigate();
@@ -66,11 +67,13 @@ const MakePayment = () => {
   };
 
   return (
-    <div>
-      <Navbar />
+     <div className="min-h-screen flex flex-col">
+      <Navbar></Navbar>
+      
+      <main className="flex-grow">
 
-      <div className="flex justify-center">
-        <div className="container w-1/2 flex flex-col items-center px-4">
+    
+        <div className=" flex flex-col items-center px-4">
           
           <div className="heading mb-5 text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-[rgb(255,94,0)]">
@@ -145,7 +148,10 @@ const MakePayment = () => {
             </form>
           </div>
         </div>
-      </div>
+    
+      <FloatingMenu></FloatingMenu>
+      </main>
+      <Footer></Footer>
     </div>
   );
 };

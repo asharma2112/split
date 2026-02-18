@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import FloatingMenu from "../components/FloatingMenu";
+import Footer from "../components/Footer";
 
 const JoinGroup = () => {
 
@@ -12,7 +14,7 @@ const JoinGroup = () => {
   const handleJoin = async (e) => {
     e.preventDefault();
 
-    if (!code ) {
+    if (!code) {
       alert("Code is required");
       return;
     }
@@ -28,7 +30,7 @@ const JoinGroup = () => {
           },
           body: JSON.stringify({
             code,
-         
+
           })
         }
       );
@@ -48,11 +50,12 @@ const JoinGroup = () => {
   };
 
   return (
-    <>
-    
+    <div className="min-h-screen flex flex-col ">
+      <Navbar></Navbar>
 
-      <div className="flex justify-center">
-        <div className="bg-white p-8 rounded shadow-md w-96">
+      <main className="flex-grow flex justify-center items-start pt-5">
+
+        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
 
           <h1 className="text-3xl font-bold text-orange-500 mb-6 text-center">
             Join Group
@@ -68,8 +71,6 @@ const JoinGroup = () => {
               className="border p-2 rounded"
             />
 
-           
-
             <button
               type="submit"
               className="bg-green-500 text-white p-2 rounded font-bold hover:bg-green-600"
@@ -78,9 +79,16 @@ const JoinGroup = () => {
             </button>
 
           </form>
+
         </div>
-      </div>
-    </>
+
+        <FloatingMenu />
+
+      </main>
+
+      <Footer></Footer>
+    </div>
+
   );
 };
 

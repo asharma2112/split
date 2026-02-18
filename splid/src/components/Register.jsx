@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import '../components/Register.css'
-import Logo from '../assets/download.svg'
+import Logo from '../assets/Logo.png'
 import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
@@ -42,10 +42,10 @@ const Register = () => {
       }
 
       alert("Registration Successfull");
-     
-        
-          navigate("/login");
-       
+
+
+      navigate("/login");
+
     }
     catch (error) {
       console.log(error);
@@ -57,12 +57,12 @@ const Register = () => {
   };
 
   return (
-    <div className='container bg-dark:bg-gray-800'>
-      <div className="logo">
+    <div className=' flex  flex-col justify-center items-center bg-dark:bg-gray-800'>
+      <div className="logo flex justify-center items-center">
 
-        <img src={Logo} alt="" />
+        <img src={Logo} className='w-[20vw]' alt="" />
       </div>
-      <div className="card-container card w-1/3  shadow-md 
+      <div className="card-container card  shadow-md 
             hover:shadow-[0_0_25px_rgba(59,130,246,0.7)] 
             transition duration-300">
 

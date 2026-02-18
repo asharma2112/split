@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import edit from '../assets/edit.svg'
 import { GroupContext } from "../context/GroupContext";
 import JoinGroup from "./JoinGroup";
+import FloatingMenu from "../components/FloatingMenu";
+import Footer from "../components/Footer";
 const Groups = () => {
   const [groups, setGroups] = useState([]);
   const { activeGroup, setActiveGroup } = useContext(GroupContext);
@@ -159,8 +161,10 @@ const Groups = () => {
   }
 
   return (
-    <>
-      <Navbar />
+     <div className="min-h-screen flex flex-col">
+      <Navbar></Navbar>
+      
+      <main className="flex-grow">
       <div className="p-6 flex flex-col  w-full h-[90vh] gap-8 ">
         <div className="heading">
           <h1 className="text-6xl font-sans font-bold text-[rgb(255,94,0)]">
@@ -279,9 +283,11 @@ const Groups = () => {
           </div>
                 </div>
         )}
-
+<FloatingMenu></FloatingMenu>
       </div>
-    </>
+      </main>
+      <Footer></Footer>
+    </div>
   );
 };
 

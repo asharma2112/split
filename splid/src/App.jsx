@@ -14,8 +14,9 @@ import AddExpense from './pages/AddExpense'
 import ExpenseHistory from './pages/ExpenseHistory'
 import MakePayment from './pages/MakePayment'
 import SettleUp from './pages/SettleUp'
-
+import ForgotPassword from './pages/ForgotPassword'
 import JoinGroup from './pages/JoinGroup'
+import ResetPassword from './pages/ResetPassword'
 function App() {
 
 
@@ -33,6 +34,10 @@ function App() {
             <Route path='/makepayment' element={<MakePayment></MakePayment>}></Route>
             <Route path='/settleup' element={<SettleUp></SettleUp>}></Route>
             <Route path='/join-group' element={<JoinGroup></JoinGroup>}></Route>
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
+
+
             <Route
               path="/"
               element={

@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Logo from '../assets/splitmateh.png'
+import Logo from '../assets/Logo.png'
 
 
 
@@ -43,14 +43,25 @@ const Login = () => {
 
   }
   return (
-    <div className='flex flex-col gap-5 container bg-dark:bg-gray-800 f'>
-      <div className=' justify-center items-center w-1/4 '>
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 ">
 
-        <img className='' src={Logo} alt="" />
-      </div>
-      <div className=" card-container card w-1/3 shadow-md 
-            hover:shadow-[0_0_25px_rgba(59,130,246,0.7)] 
-            transition duration-300 justify-center items-center" >
+  {/* Logo */}
+  <div className="mb-6">
+    <img src={Logo} className="w-[40vw] md:w-[30vw] mx-auto" alt="logo" />
+  </div>
+
+  {/* Card */}
+  <div className="
+    w-full 
+    max-w-sm 
+    bg-white 
+    p-6 
+    rounded-xl 
+    shadow-lg
+  ">
+       
+    
+    
         <h1 className='text-3xl font-bold font-sans'>Login</h1>
         <form onSubmit={handleSubmit} className='form-container flex flex-col font-mono'>
 
@@ -64,10 +75,10 @@ const Login = () => {
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md transition duration-300">
             Submit
           </button>
-          <div className="other text-xs flex flex-row justify-between cursor-pointer">
+          <div className="other text-xs flex flex-row justify-between cursor-pointer ">
             <div className="forgot">
 
-              <span>Forgot Password?</span>
+              <span onClick={()=> navigate("/forgot-password")}>Forgot Password?</span>
             </div>
             <div className="signup">
               <span onClick={() => navigate("/register")} className='text-xs'>Don't Have an Account? SignUp</span>
@@ -77,6 +88,7 @@ const Login = () => {
         </form>
       </div>
     </div>
+
   )
 }
 

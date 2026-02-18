@@ -1,6 +1,8 @@
 import { useEffect, useState, useContext } from "react";
 import Navbar from "../components/Navbar";
 import { GroupContext } from "../context/GroupContext";
+import FloatingMenu from "../components/FloatingMenu";
+import Footer from "../components/Footer";
 
 const ExpenseHistory = () => {
   const { activeGroup } = useContext(GroupContext);
@@ -66,84 +68,89 @@ const ExpenseHistory = () => {
   };
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <div className="p-6">
-        <h1 className="text-5xl font-bold text-orange-500 mb-8">
-          {activeGroup?.name} Transaction History
-        </h1>
+      <main className="flex-grow">
 
-        {transactions.length === 0 && (
-          <p className="text-gray-500">No transactions found.</p>
-        )}
+        <div className="p-6">
+          <h1 className="text-5xl font-bold text-orange-500 mb-8">
+            {activeGroup?.name} Transaction History
+          </h1>
 
-        <div className="flex flex-col gap-6 text-left">
-          {transactions.map(tx => (
-            <div
-              key={tx._id}
-              className="bg-white flex-col justify-between shadow-md rounded-xl p-5"
-            >
-              {/* Top Section */}
-              <div className="flex justify-between">
-                <div>
-                  <h2 className="text-xl font-bold">
-                    {tx.description}
-                  </h2>
+          {transactions.length === 0 && (
+            <p className="text-gray-500">No transactions found.</p>
+          )}
 
-                  {tx.type === "expense" && (
-                    <p className="text-gray-500">
-                      Paid by {tx.paidBy}
+          <div className="flex flex-col gap-6 text-left">
+            {transactions.map(tx => (
+              <div
+                key={tx._id}
+                className="bg-white flex-col justify-between shadow-md rounded-xl p-5"
+              >
+                {/* Top Section */}
+                <div className="flex gap-2 justify-between">
+                  <div>
+                    <h2 className="text-xl font-bold">
+                      {tx.description}
+                    </h2>
+
+                    {tx.type === "expense" && (
+                      <p className="text-gray-500">
+                        Paid by {tx.paidBy}
+                      </p>
+                    )}
+
+                    <p className="text-gray-400 text-sm">
+                      {new Date(tx.date).toLocaleDateString()}
                     </p>
+                  </div>
+
+                  <div
+                    className={`text-lg font-bold ${tx.type === "payment"
+                      ? "text-green-600"
+                      : "text-red-600"
+                      }`}
+                  >
+                    ₹{tx.amount}
+                  </div>
+                </div>
+
+                {/* Bottom Section */}
+                <div className="mt-4 flex gap-5 justify-between items-center">
+
+                  {/* Split info only for expenses */}
+                  {tx.type === "expense" && tx.splitBetween?.length > 0 ? (
+                    <div className="bg-yellow-500 px-1 py-2  rounded font-bold text-sm">
+                      Split:
+                      {tx.splitBetween.map((member, i) => (
+                        <span key={i} className="ml-2">
+                          {member.member} (₹{member.amount})
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <div></div>  // keeps alignment clean
                   )}
 
-                  <p className="text-gray-400 text-sm">
-                    {new Date(tx.date).toLocaleDateString()}
-                  </p>
+                  {/* Delete Button */}
+                  <button
+                    onClick={() => handleDelete(tx._id)}
+                    className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition"
+                  >
+                    Delete
+                  </button>
+
                 </div>
 
-                <div
-                  className={`text-lg font-bold ${tx.type === "payment"
-                    ? "text-green-600"
-                    : "text-red-600"
-                    }`}
-                >
-                  ₹{tx.amount}
-                </div>
               </div>
-
-              {/* Bottom Section */}
-              <div className="mt-4 flex justify-between items-center">
-
-                {/* Split info only for expenses */}
-                {tx.type === "expense" && tx.splitBetween?.length > 0 ? (
-                  <div className="bg-yellow-500 p-1 py-2  rounded font-bold text-sm">
-                    Split:
-                    {tx.splitBetween.map((member, i) => (
-                      <span key={i} className="ml-2">
-                        {member.member} (₹{member.amount})
-                      </span>
-                    ))}
-                  </div>
-                ) : (
-                  <div></div>  // keeps alignment clean
-                )}
-
-                {/* Delete Button */}
-                <button
-                  onClick={() => handleDelete(tx._id)}
-                  className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition"
-                >
-                  Delete
-                </button>
-
-              </div>
-
-            </div>
-          ))}
+            ))}
+          </div>
+          <FloatingMenu></FloatingMenu>
         </div>
-      </div>
-    </>
+      </main>
+        <Footer></Footer>
+    </div>
   );
 };
 
