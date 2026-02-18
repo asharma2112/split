@@ -16,7 +16,7 @@ const ResetPassword = () => {
     }
 
     // Call backend
-    await fetch("http://localhost:3000/api/auth/reset-password", {
+    await fetch("https://split-g38i.onrender.com/api/auth/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token, password })
